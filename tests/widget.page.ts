@@ -6,7 +6,9 @@ enum WidgetPageSelectors {
     HEADER_TEXT = 'header h5',
     BUTTON_OPEN = '[data-test=openWidget]',
     BUTTON_WRITE_TO_US = '[data-test=button_feedback_form]',
-    ARTICLE_POPULAR_LIST_ITEM = '[data-testid=article-list-item]',
+    ARTICLE_POPULAR_TITLE = '[class^=popularTitle__]',
+    ARTICLE_POPULAR_LIST = `${ARTICLE_POPULAR_TITLE} + ul[class^=articles__]`,
+    ARTICLE_POPULAR_LIST_ITEM = `${ARTICLE_POPULAR_LIST} > li > [data-testid="article-list-item"]`,
 }
 
 export class WidgetPage {
@@ -36,14 +38,6 @@ export class WidgetPage {
         await article.click();
     }
 
-    async clickPopularArticleByTitle(title: string) {
-        const article = this.getPopularArticlesList().filter({ hasText: title });
-
-        await article.waitFor({ state: 'visible', timeout: 5000 });
-        await article.click();
-    }
-
-
     async clickWriteToUs() {
         return this.wrapper().locator(WidgetPage.selector.BUTTON_WRITE_TO_US).click();
     }
@@ -56,4 +50,3 @@ export class WidgetPage {
         return this.page.locator(WidgetPage.selector.WIDGET_BODY);
     }
 }
-

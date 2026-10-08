@@ -12,9 +12,7 @@ test.describe('Uchi.ru widget ', () => {
 
     // close cookies popup
     await page.click('._UCHI_COOKIE__button');
-    
-    // Wait for network idle to ensure widget is loaded
-    await page.waitForLoadState('networkidle'); 
+
   });
 
   test('opens', async () => {
@@ -29,5 +27,11 @@ test.describe('Uchi.ru widget ', () => {
     await widgetPage.clickWriteToUs();
 
     expect(await widgetPage.getTitle()).toEqual('Связь с поддержкой');
+  });
+
+  test('verify number of popular articles', async () => {
+     await widgetPage.openWidget();
+    
+     await expect(widgetPage.getPopularArticlesList()).toHaveCount(5);
   });
 });
