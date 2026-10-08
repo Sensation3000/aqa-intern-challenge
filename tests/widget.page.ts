@@ -28,6 +28,13 @@ export class WidgetPage {
         return this.page.locator(WidgetPage.selector.ARTICLE_POPULAR_LIST_ITEM);
     }
 
+    async clickFirstPopularArticle(){
+        const article = this.getPopularArticlesList().first();
+
+        await article.waitFor({ state: 'visible', timeout: 5000 });
+        await article.click();
+    }
+
     async clickPopularArticleByTitle(title: string) {
         const article = this.getPopularArticlesList().filter({ hasText: title });
 

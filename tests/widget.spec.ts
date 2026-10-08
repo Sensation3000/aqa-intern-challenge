@@ -22,7 +22,7 @@ test.describe('Uchi.ru widget ', () => {
 
   test('has correct title', async () => {
     await widgetPage.openWidget();
-    await widgetPage.clickPopularArticleByTitle("Как написать в службу поддержки?");
+    await widgetPage.clickFirstPopularArticle();
     await widgetPage.clickWriteToUs();
 
     expect(await widgetPage.getTitle()).toEqual('Связь с поддержкой');
