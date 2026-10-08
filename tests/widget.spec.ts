@@ -12,6 +12,9 @@ test.describe('Uchi.ru widget ', () => {
 
     // close cookies popup
     await page.click('._UCHI_COOKIE__button');
+    
+    // Wait for network idle to ensure widget is loaded
+    await page.waitForLoadState('networkidle'); 
   });
 
   test('opens', async () => {
