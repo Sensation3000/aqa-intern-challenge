@@ -14,19 +14,15 @@ test.describe('Uchi.ru widget ', () => {
     await page.click('._UCHI_COOKIE__button');
   });
 
-  test('opens', async ({page}) => {
+  test('opens', async () => {
     await widgetPage.openWidget();
 
     await expect(widgetPage.getWidgetBody()).toBeVisible()
   });
 
-  test('has correct title', async ({ page }) => {
+  test('has correct title', async () => {
     await widgetPage.openWidget();
-
-    const articles = await widgetPage.getPopularArticles();
-
-    await articles[0].click();
-
+    await widgetPage.clickPopularArticleByTitle("Как написать в службу поддержки?");
     await widgetPage.clickWriteToUs();
 
     expect(await widgetPage.getTitle()).toEqual('Связь с поддержкой');

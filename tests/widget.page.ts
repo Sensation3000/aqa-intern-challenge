@@ -5,10 +5,8 @@ enum WidgetPageSelectors {
     WIDGET_BODY = '[class^=widgetWrapper] > [class^=widget__]',
     HEADER_TEXT = 'header h5',
     BUTTON_OPEN = '[data-test=openWidget]',
-    BUTTON_WRITE_TO_US = '[class^=btn]',
-    ARTICLE_POPULAR_TITLE = '[class^=popularTitle__]',
-    ARTICLE_POPULAR_LIST = `${ARTICLE_POPULAR_TITLE} + ul[class^=articles__]`,
-    ARTICLE_POPULAR_LIST_ITEM = `${ARTICLE_POPULAR_LIST} > li`,
+    BUTTON_WRITE_TO_US = '[data-test=button_feedback_form]',
+    ARTICLE_POPULAR_LIST_ITEM = '[data-testid=article-list-item]',
 }
 
 export class WidgetPage {
@@ -21,12 +19,22 @@ export class WidgetPage {
     }
 
     async openWidget() {
-        return this.wrapper().locator(WidgetPage.selector.BUTTON_OPEN).click();
+        const button = this.wrapper().locator(WidgetPage.selector.BUTTON_OPEN);
+        await button.waitFor({ state: 'visible', timeout: 5000 });
+        await button.click();
     }
 
-    async getPopularArticles() {
-        return this.wrapper().locator(WidgetPage.selector.ARTICLE_POPULAR_LIST_ITEM).all()
+    getPopularArticlesList() {
+        return this.page.locator(WidgetPage.selector.ARTICLE_POPULAR_LIST_ITEM);
     }
+
+    async clickPopularArticleByTitle(title: string) {
+        const article = this.getPopularArticlesList().filter({ hasText: title });
+
+        await article.waitFor({ state: 'visible', timeout: 5000 });
+        await article.click();
+    }
+
 
     async clickWriteToUs() {
         return this.wrapper().locator(WidgetPage.selector.BUTTON_WRITE_TO_US).click();
