@@ -23,7 +23,7 @@ test.describe('Uchi.ru widget ', () => {
 
   test('has correct title', async () => {
     await widgetPage.openWidget();
-    await widgetPage.clickFirstPopularArticle();
+    await widgetPage.getPopularArticlesList().first().click();
     await widgetPage.clickWriteToUs();
 
     expect(await widgetPage.getTitle()).toEqual('Связь с поддержкой');

@@ -1,4 +1,4 @@
-import {Page} from "@playwright/test";
+import {Locator, Page} from "@playwright/test";
 
 enum WidgetPageSelectors {
     WRAPPER = '.sc-dino-typography-h > [class^=widget__]',
@@ -8,7 +8,7 @@ enum WidgetPageSelectors {
     BUTTON_WRITE_TO_US = '[data-test=button_feedback_form]',
     ARTICLE_POPULAR_TITLE = '[class^=popularTitle__]',
     ARTICLE_POPULAR_LIST = `${ARTICLE_POPULAR_TITLE} + ul[class^=articles__]`,
-    ARTICLE_POPULAR_LIST_ITEM = `${ARTICLE_POPULAR_LIST} > li > [data-testid="article-list-item"]`,
+    ARTICLE_POPULAR_LIST_ITEM = `${ARTICLE_POPULAR_LIST} > li`
 }
 
 export class WidgetPage {
@@ -16,26 +16,16 @@ export class WidgetPage {
 
     constructor(protected page: Page) {}
 
-    wrapper() {
+    wrapper(): Locator {
         return this.page.locator(WidgetPage.selector.WRAPPER)
     }
 
     async openWidget() {
-        await this.wrapper().waitFor({ state: 'attached', timeout: 10000 });
-        const button = this.wrapper().locator(WidgetPage.selector.BUTTON_OPEN);
-        await button.waitFor({ state: 'visible', timeout: 5000 });
-        await button.click();
+        return this.page.locator(WidgetPage.selector.BUTTON_OPEN).click();
     }
 
-    getPopularArticlesList() {
+    getPopularArticlesList(): Locator{
         return this.page.locator(WidgetPage.selector.ARTICLE_POPULAR_LIST_ITEM);
-    }
-
-    async clickFirstPopularArticle(){
-        const article = this.getPopularArticlesList().first();
-
-        await article.waitFor({ state: 'visible', timeout: 5000 });
-        await article.click();
     }
 
     async clickWriteToUs() {
